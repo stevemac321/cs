@@ -45,9 +45,6 @@ fn test_gen_ins() {
     }
 }
 
-
-
-
 fn test_ins() {
     let mut test1 = vec![5, 2, 9, 1, 5, 6];
     let mut test2 = vec![3, 0, -1, 8, 7, 2];
@@ -135,4 +132,7 @@ where
         arr[i] = key;                     
     }
 }
-
+/*
+* Linear Search Exercise 2.1-3
+*  See LoopInvariants.pdf in github/stevemac321/CS-Latex
+* */

@@ -1,13 +1,15 @@
 #include <iostream>
+#include <cassert>
 #include <concepts>
 #include <type_traits>
 #include <bitset>
 
 // Define the BitState enum
 enum BitState {
-    ZERO_ZERO,
-    ZERO_ONE,
-    ONE_ONE
+    ZERO,
+    ONE,
+    TWO,
+    THREE
 };
 
 // Define a concept that checks for unsigned integral types
@@ -40,7 +42,7 @@ void setbit(T &x, size_t pos, size_t val)
 template<UnsignedBitwiseOperable T>
 T addbits(T a, T b) {
     T c = 0;
-    bool carry_flag = false;
+    size_t carry_flag = 0;
     size_t sum = 0;
 
     for (size_t i = 0; i < sizeof(T) * 8; i++) {  // Loop through each bit
@@ -48,24 +50,31 @@ T addbits(T a, T b) {
         size_t bit_b = getbit(b, i);
 
         // Determine the bit state
-        BitState state = static_cast<BitState>(bit_a + bit_b);
+        BitState state = static_cast<BitState>(bit_a + bit_b + carry_flag);
 
         // Calculate the sum and update carry_flag based on the state
         switch (state) {
-            case BitState::ZERO_ZERO:
-                sum = carry_flag ? 1 : 0;
-                carry_flag = false;
+            case BitState::ZERO:
+                sum =  0;
+                carry_flag = 0;
                 break;
-            case BitState::ZERO_ONE:
-                sum = carry_flag ? 0 : 1;
-                carry_flag = carry_flag ? true : false;
+            case BitState::ONE:
+                sum = 1;
+                carry_flag = 0;
                 break;
-            case BitState::ONE_ONE:
-                sum = carry_flag ? 1 : 0;
-                carry_flag = true;
+            case BitState::TWO:
+                sum = 0;
+                carry_flag = 1;
                 break;
+            case BitState::THREE:
+                sum = 0;
+                carry_flag = 1;
+                break;
+            default:
+                std::cout << "error\n";
+                assert(false);
         }
-	setbit(c, i, sum);
+	      setbit(c, i, sum);
        
     }
     if (carry_flag) {

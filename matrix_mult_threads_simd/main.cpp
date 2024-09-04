@@ -10,7 +10,7 @@
 #include <cstdlib>      // For rand()
 #include <ctime>        // For seeding rand()
 
-const size_t N = 10000;  // Matrix size 10000x10000
+const size_t N = 1000;  // Matrix size 1000x1000
 const size_t NUM_THREADS = std::thread::hardware_concurrency(); // Number of threads
 
 // Function to generate a random matrix
